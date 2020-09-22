@@ -7,6 +7,10 @@ var messageDisplay = document.querySelector("#message");
 var h1 = document.querySelector("h1");
 var resetButton = document.querySelector("#reset");
 var modeButtons = document.querySelectorAll(".mode");
+var ch = document.getElementById('ch');
+
+var sc=0;
+
 h1.classList.add("new");
 for (var i = 0; i < modeButtons.length; i++) {
 	modeButtons[i].addEventListener("click",function(){
@@ -14,7 +18,6 @@ for (var i = 0; i < modeButtons.length; i++) {
 		modeButtons[1].classList.remove("selected");
 		this.classList.add("selected");
 		this.textContent ==="Easy"?numSquares =3 :numSquares=6;
-		
 		// if (this.textContent=="Easy") {
 		// 	numSquares = 3;
 		// } else {
@@ -27,6 +30,8 @@ for (var i = 0; i < modeButtons.length; i++) {
 function reset(){
 	for(var i=0;i<numSquares;i++)
  				squares[i].style.visibility="visible";
+ 			sc=0;
+ 			ch.textContent=0;
 	h1.classList.add("new");
 	colors = generateRandomColors(numSquares);
 	pickedColor = pickColor();
@@ -102,8 +107,32 @@ colorDisplay.textContent = pickedColor;
  	squares[i].addEventListener("click", function () {
  		var clickedColor = this.style.backgroundColor;
  		console.log(clickedColor,pickedColor);
- 		if (clickedColor===pickedColor) {
- 			messageDisplay.textContent="Correct!";
+ 		if (clickedColor===pickedColor)
+		{
+			if(numSquares==6)
+			{
+				ch.textContent=6-sc;
+				if(sc==6 || sc==5)
+					messageDisplay.textContent="You are noob!!";
+				if(sc==4 || sc==3)
+					messageDisplay.textContent="You need little more practice!!";
+				if(sc==2 || sc==1)
+					messageDisplay.textContent="You are almost there!!";
+				if(sc==0)
+					messageDisplay.textContent="You are Pro man!!";
+			}
+			if(numSquares==3){
+                        
+			ch.textContent=3-sc;	
+                        if(sc==2)
+					messageDisplay.textContent="You need little more practice!!";
+				if(sc==1)
+					messageDisplay.textContent="You are almost there!!";
+				if(sc==0)
+					messageDisplay.textContent="You are Pro man!!";
+                                        }
+
+			//messageDisplay.textContent="Correct!";
  			resetButton.textContent = "Play Again?";
  			changeColors(clickedColor);
  			h1.classList.remove("new");
@@ -111,10 +140,18 @@ colorDisplay.textContent = pickedColor;
  				squares[i].style.visibility="visible";
  			h1.style.backgroundColor= clickedColor;
  			
- 		} else {
+ 		
+ 		} 
+ 		else 
+ 		{
+ 			sc++;
+ 			if(sc==6)
+ 				sc=0;
+ 			ch.textContent=0;
  			this.style.backgroundColor = "#232323";
  			messageDisplay.textContent="Try Again!!";
  			this.style.visibility="hidden";
+ 			
  		}
  		// body...
  	});
